@@ -29,7 +29,7 @@ def create_stations(stations_config: dict) -> list[Station]:
         stop_points = []
         
         # cycle through every stop_point assigned to one station
-        for stop_point in stations_config[station_name]:
+        for stop_point in stations_config[station_name]["stops"]:
             # get stop_point_ref
             stop_point_ref = stop_point["stop_point_ref"]
             
@@ -56,9 +56,12 @@ def create_stations(stations_config: dict) -> list[Station]:
             if prefix is None: logger.debug(f"station {station_name} / {stop_point_ref} doesn't have a prefix configured")
             if suffix is None: logger.debug(f"station {station_name} / {stop_point_ref} doesn't have a suffix configured")
         
+        lead_time_minutes = float(stations_config[station_name]["lead_time_minutes"])
+        
         # add the new station with its newly creted stop point to the list of station objects
         stations.append(Station(
             name=station_name,
+            lead_time_minutes=lead_time_minutes,
             stop_points=stop_points
         ))
     

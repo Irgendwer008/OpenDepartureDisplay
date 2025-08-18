@@ -4,21 +4,21 @@ general:
   QR-Code-content: https://github.com/Irgendwer008/OpenDepartureDisplay
   QR-Code-height: 0.9
 windows:
-  - position_x: 0
+  - station: Durlacher Tor / KIT-Campus Süd
+    position_x: 0
     position_y: 0
     width: 800
     height: 400
-    station: Durlacher Tor / KIT-Campus Süd
-  - position_x: 800
+  - station: Kronenplatz
+    position_x: 800
     position_y: 0
     width: 600
     height: 300
-    station: Kronenplatz
-  - position_x: 1920
+  - station: Hauptbahnhof
+    position_x: 1920
     position_y: 0
     width: 1920
     height: 1080
-    station: Hauptbahnhof
 # Here is one example list i found to quickly search for stop points and their refs: https://github.com/ZeroTwoWeeb/MMM-KVV-Trias/blob/main/stops.txt
 stations:
   Durlacher Tor / KIT-Campus Süd:
