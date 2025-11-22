@@ -211,16 +211,19 @@ def get_departures_from_xml(stop_point_ref: str,
             # Get line name and destination
             published_line_name = event.find('.//tri:PublishedLineName/tri:Text', ns).text
             # TODO: make not hardcoded
-            if published_line_name.split(" ")[1] == "SEV":
-                line_number = "SEV" + "".join(published_line_name.split(" ")[-1])
-            elif published_line_name.split(" ")[-1] == "InterCityExpress":
-                line_number = "ICE" + "".join(published_line_name.split(" ")[1:2])
-            elif published_line_name.split(" ")[-1] == "InterCity":
-                line_number = "IC" + "".join(published_line_name.split(" ")[1:2])
-            elif published_line_name.split(" ")[-1] == "Flixbus":
-                line_number = "FLX" + "".join(published_line_name.split(" ")[-1])
-            else: 
-                line_number = published_line_name.split(" ")[-1]
+            words = published_line_name.split(" ")
+            if len(words) > 1 and words[1] == "SEV":
+                line_number = "SEV" + "".join(words[-1])
+            if len(words) > 0:
+                if words[-1] == "InterCityExpress":
+                    line_number = "ICE" + "".join(words[1:2])
+                elif words[-1] == "InterCity":
+                    line_number = "IC" + "".join(words[1:2])
+                elif words[-1] == "Flixbus":
+                    line_number = "FLX" + "".join(words[-1])
+                else: 
+                    line_number = words[-1]
+            
             destination = event.find('.//tri:DestinationText/tri:Text', ns).text
             
             # platform

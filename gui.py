@@ -249,9 +249,13 @@ class DepartureEntry:
         self.line_icon_label.configure(image=icon_handler.get_icon(departure.mode, icon_width, icon_height, int((icon_height) / 4), text, departure.background_color, departure.text_color, self.font), background=background)
 
         # Platform formatting stuff
-        prefix = departure.stop_point.prefix if departure.stop_point.prefix is not None else ""
-        suffix = departure.stop_point.suffix if departure.stop_point.suffix is not None else ""
-        platform_text = (prefix + " " + departure.platform + " " + suffix) if departure.platform is not None else (prefix + " N/A " + suffix)
+        #prefix = departure.stop_point.prefix if departure.stop_point.prefix is not None else ""
+        #suffix = departure.stop_point.suffix if departure.stop_point.suffix is not None else ""
+        #platform_text = (prefix + " " + departure.platform + " " + suffix) if departure.platform is not None else (prefix + " N/A " + suffix)
+        #
+        # Apparently things got changed so that the suffix is also contained in the platform string, therefor:
+        platform_text = departure.platform if departure.platform is not None else "N/A"
+        
         
         # Update tkVars
         self.destination_var.set(departure.destination)
