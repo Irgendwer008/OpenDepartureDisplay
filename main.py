@@ -15,10 +15,16 @@ from helper_functions import create_stations, \
                              get_departures_from_xml, \
                              get_departures_for_window
 from KVV import KVV
+
+# before next release:
+#TODO: make lead_time_minutes actually do something
+
 #TODO: handle empty departures
 #TODO: handle http errors
 #TODO: popup window for error handling
-#TODO: change log file name to ODD.log or similar with next major version
+
+# for version 2.0:
+#TODO: change log file name to default ODD.log or similar and make it configurable
 
 # optional
 #TODO: add config for custom log file name

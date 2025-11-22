@@ -29,7 +29,7 @@ def create_stations(stations_config: dict) -> list[Station]:
         stop_points = []
         
         # cycle through every stop_point assigned to one station
-        for stop_point in stations_config[station_name]:
+        for stop_point in stations_config[station_name]["stops"]:
             # get stop_point_ref
             stop_point_ref = stop_point["stop_point_ref"]
             
@@ -56,9 +56,12 @@ def create_stations(stations_config: dict) -> list[Station]:
             if prefix is None: logger.debug(f"station {station_name} / {stop_point_ref} doesn't have a prefix configured")
             if suffix is None: logger.debug(f"station {station_name} / {stop_point_ref} doesn't have a suffix configured")
         
+        lead_time_minutes = float(stations_config[station_name]["lead_time_minutes"])
+        
         # add the new station with its newly creted stop point to the list of station objects
         stations.append(Station(
             name=station_name,
+            lead_time_minutes=lead_time_minutes,
             stop_points=stop_points
         ))
     
@@ -208,16 +211,19 @@ def get_departures_from_xml(stop_point_ref: str,
             # Get line name and destination
             published_line_name = event.find('.//tri:PublishedLineName/tri:Text', ns).text
             # TODO: make not hardcoded
-            if published_line_name.split(" ")[1] == "SEV":
-                line_number = "SEV" + "".join(published_line_name.split(" ")[-1])
-            elif published_line_name.split(" ")[-1] == "InterCityExpress":
-                line_number = "ICE" + "".join(published_line_name.split(" ")[1:2])
-            elif published_line_name.split(" ")[-1] == "InterCity":
-                line_number = "IC" + "".join(published_line_name.split(" ")[1:2])
-            elif published_line_name.split(" ")[-1] == "Flixbus":
-                line_number = "FLX" + "".join(published_line_name.split(" ")[-1])
-            else: 
-                line_number = published_line_name.split(" ")[-1]
+            words = published_line_name.split(" ")
+            if len(words) > 1 and words[1] == "SEV":
+                line_number = "SEV" + "".join(words[-1])
+            if len(words) > 0:
+                if words[-1] == "InterCityExpress":
+                    line_number = "ICE" + "".join(words[1:2])
+                elif words[-1] == "InterCity":
+                    line_number = "IC" + "".join(words[1:2])
+                elif words[-1] == "Flixbus":
+                    line_number = "FLX" + "".join(words[-1])
+                else: 
+                    line_number = words[-1]
+            
             destination = event.find('.//tri:DestinationText/tri:Text', ns).text
             
             # platform

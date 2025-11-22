@@ -139,19 +139,20 @@ class Config:
             self.stations: dict = self.config["stations"]
             for try_station_key in self.stations.keys():
                 # try each station in the list for its properties
-                try_station: list[dict] = self.stations[try_station_key]
-                for stop_point in try_station:
+                try_station: dict = self.stations[try_station_key]
+                Helper.is_float(try_station["lead_time_minutes"])
+                for stop in try_station["stops"]:
                     # check each stop_point of each station for its properties
-                    Helper.does_exist(stop_point, "stop_point_ref")
+                    Helper.does_exist(stop, "stop_point_ref")
                     # check if any mentioned properties are in this list to prevent accidental mistyping of an optional argument
-                    for try_optional_argument in stop_point.keys():
+                    for try_optional_argument in stop.keys():
                         if try_optional_argument not in ["stop_point_ref", "prefix", "suffix"]:
                             raise ValueError
         except KeyError:
             if try_station is None:
                 logger.critical('KeyError while reading station configuration, have you typed "station" correctly? Quitting program.', exc_info=True)
             else:
-                logger.critical(f'KeyError while reading station {try_station_key}\'s configuration, have you typed "stop_point_ref", "prefix" and "suffix" correctly? Quitting program.', exc_info=True)
+                logger.critical(f'KeyError while reading station {try_station_key}\'s configuration, have you typed "stop_point_ref", "prefix", "suffix" and "lead_time_minutes" correctly? Quitting program.', exc_info=True)
             quit()
         except ValueError:
             logger.critical(f'ValueError while reading station {try_station_key}\'s configuration, invalid property "{try_optional_argument}"! Quitting program.', exc_info=True)

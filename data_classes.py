@@ -15,8 +15,9 @@ class StopPoint:
 @dataclass
 class Station:
     """Class for one Station with one or more StopPoints
-    """    
+    """
     name: str
+    lead_time_minutes: float
     stop_points: list[StopPoint]
 
 @dataclass
